@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+using ll=long long;
+class Node{
+     public:
+        int val;
+        Node* next;
+        Node(int val){
+            this->val=val;
+            next=NULL;
+        }
+};
+
+void print(Node* head){
+     while(head!=NULL){
+         cout<<head->val<<" ";
+         head=head->next;
+     }
+     cout<<endl;
+}
+
+Node* reverseNode(Node* head){
+      Node* node=NULL;
+      while(head!=NULL){
+          Node* temp=head->next;
+          head->next=node;
+          node=head;
+          head=temp;
+      }
+      return node;
+}
+void solve(){
+     ll n;
+     cin>>n;
+     vector<ll>a(n);
+     for(ll i=0; i<n; i++){
+          cin>>a[i];
+     }
+     
+     Node* head=new Node(a[0]);
+     Node* temp=head;
+     for(ll i=1; i<n; i++){
+         temp->next=new Node(a[i]);
+         temp=temp->next;
+     }
+     
+     print(head);
+     head=reverseNode(head);
+     print(head);
+}
+int main(){ 
+     int t;
+     cin>>t;
+     while(t--){
+       solve();
+     }
+     return 0;
+}
