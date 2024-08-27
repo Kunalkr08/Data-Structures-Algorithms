@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+using ll=long long;
+void solve(){
+     ll n;
+     cin>>n;
+     string s;
+     cin>>s;
+     ll ans=INT_MIN;
+     ll x=-1,y=n;
+     for(ll i=0; i<n; i++){
+         //checking even length palindrome
+           ll l=i,h=i+1;
+           if(s[l]==s[h]){
+              while(l>=0 && h<n){
+                 if(s[l]==s[h]){
+                    l--,h++;
+                 }
+                 else{
+                    break;
+                 }
+              }
+              l=max((ll)0,l+1);
+              h=min(h-1,n-1);
+              if(ans<(h-l+1)){
+                 ans=(h-l+1);
+                 x=l,y=h;
+              }
+           }
+           //checking odd length palindrome
+           ll l1=i,h1=i;
+           while(l1>=0 && h1<n){
+                if(s[l1]==s[h1]){
+                    l1--,h1++;
+                }
+                else{
+                    break;
+                }
+           }
+           l1=max((ll)0,l1+1);
+           h1=min(h1-1,n-1);
+           if(ans<(h1-l1+1)){
+              ans=(h1-l1+1);
+              x=l1,y=h1;
+           }
+     }
+     cout<<ans<<" "<<s.substr(x,y-x+1)<<endl;
+}
+int main(){ 
+     int t;
+     cin>>t;
+     while(t--){
+       solve();
+     }
+     return 0;
+}
