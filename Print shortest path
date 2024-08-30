@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+void solve(){
+     ll n,m;
+     cin>>n>>m;
+     vector<vector<pair<ll,ll>>>adj(n);
+     for(ll i=0; i<m; i++){
+         ll x,y,w;
+         cin>>x>>y>>w;
+         adj[x].push_back({y,w});
+         adj[y].push_back({x,w});
+     }
+
+     vector<ll>vis(n);
+     vector<ll>dist(n,1e12);
+     vector<ll>parent(n);
+     for(ll i=0; i<n; i++){
+         parent[i]=i;
+     }
+     dist[0]=0;
+     priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>>pq;
+     pq.push({0,0});
+     while(!pq.empty()){
+         ll node=pq.top().second;
+         ll wt=pq.top().first;
+         pq.pop();
+         if(vis[node]) continue;
+         vis[node]=1;
+         for(auto it: adj[node]){
+             ll nd=it.first;
+             ll w=it.second;
+             if(dist[nd]>(w+wt)){
+                 parent[nd]=node;
+                 dist[nd]=(w+wt);
+                 pq.push({dist[nd],nd});
+             }
+         }
+     }
+     
+     ll x=n-1;
+     vector<ll>v;
+     v.push_back(x);
+     while(x!=parent[x]){
+          v.push_back(parent[x]);
+          x=parent[x];
+     }
+
+     reverse(v.begin(),v.end());
+     for(auto it: v){
+          cout<<it<<" ";
+     }
+     cout<<endl;
+}
+int main(){ 
+     solve();
+     return 0;
+}
