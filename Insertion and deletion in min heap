@@ -1,0 +1,92 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+class minheap{
+      int* a;
+      int size;
+      int tot_size;
+   public:
+      maxheap(int n){
+          a=new int[n];
+          size=0;
+          tot_size=n;
+      }
+
+      void print(){
+           for(int i=0; i<size; i++){
+               cout<<a[i]<<" ";
+           }
+      }
+
+      void insert(int val){
+           if(size==tot_size){
+               cout<<"Heap Overflow"<<endl;
+               return;
+           }
+
+           int index=size;
+           a[index]=val;
+           size++;
+
+           while(index>0 && a[index]<a[(index-1)/2]){
+               swap(a[index],a[(index-1)/2]);
+               index=(index-1)/2;
+           }
+           print();
+           cout<<endl;
+      }
+
+      void Heapify(int index){
+           int largest=index;
+           int left=2*index+1;
+           int right=2*index+2;
+           if(left<size && a[left]<a[largest]){
+               largest=left;
+           }
+           if(right<size && a[right]<a[largest]){
+               largest=right;
+           }
+
+           if(largest!=index){
+               swap(a[largest],a[index]);
+               Heapify(largest);
+           }
+      }
+
+      void Delete(){
+           if(size==0){
+               cout<<"Heap Underflow"<<endl;
+               return;
+           }
+
+           a[0]=a[size-1];
+           size--;
+
+           if(size==0){
+               return;
+           }
+
+           Heapify(0);
+           print();
+      }
+};
+int main(){ 
+     
+     int n;
+     cin>>n;
+     vector<int>a(n);
+     for(auto &it: a) cin>>it;
+     maxheap m(n);
+     for(int i=0; i<n; i++){
+         m.insert(a[i]);
+     }
+
+     m.Delete();
+     return 0;
+}
+
+
+
+/// insertion and deletion in max heap....takes time log(n) for 
+/// each insertion and also for each deletion it takes log(n) time
