@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define mod 1000000007
+class Node{
+     public:
+     ll val;
+     Node* left;
+     Node* right;
+     Node(ll val){
+        this->val=val;
+        left=NULL;
+        right=NULL;
+     }
+};
+
+
+void printleft(Node* root, ll level, ll &x){
+     if(!root) return;
+     if(root->left==NULL && root->right==NULL) return;
+     if(level==x){
+         cout<<root->val<<" ";
+         x++;
+         printleft(root->left, level+1, x);
+     }
+     else if(level==x){
+         cout<<root->val<<" ";
+         x++;
+         printleft(root->left, level+1, x);
+     }
+}
+
+void printbottom(Node* root){
+     if(root==NULL) return;
+     if(root->left==NULL && root->right==NULL){
+         cout<<root->val<<" ";
+     }
+
+     printbottom(root->left);
+     printbottom(root->right);
+}
+
+void printright(Node* root, ll level, ll &y){
+     if(!root) return;
+     if(!root->left && !root->right) return;
+
+     if(level==y && root->right){
+         y++;
+         printright(root->right, level+1, y);
+         cout<<root->val<<" ";
+     }
+     else if(level==y && root->left){
+         y++;
+         printright(root->left, level+1, y);
+         cout<<root->val<<" ";
+     }
+}
+
+
+int main(){ 
+     
+     ll n;
+     cin>>n;
+     vector<ll>a(n);
+     for(ll i=0; i<n; i++){
+         cin>>a[i];
+     }
+
+     Node* root=new Node(a[0]);
+
+     queue<Node*>q;
+     q.push(root);
+     ll j=1;
+     while(!q.empty()){
+          Node* node=q.front();
+          q.pop();
+          if(j<n){
+             node->left=new Node(a[j]);
+             q.push(node->left);
+             j++;
+          }
+          if(j<n){
+             node->right=new Node(a[j]);
+             q.push(node->right);
+             j++;
+          }
+     }
+
+     ll x=0;
+     printleft(root, 0, x);
+     printbottom(root);
+     ll y=0;
+     printright(root, 0, y);
+     return 0;
+}
