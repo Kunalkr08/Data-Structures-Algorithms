@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define mod 1000000007
+class Box{
+     private: 
+         ll length;
+     public:
+         Box(){
+            length=0;
+         }
+         friend ll printLength(Box);//friend function
+};
+
+ll printLength(Box b){
+   b.length+=10;
+   return b.length;
+}
+int main(){ 
+     
+     Box b;
+     cout<<"Length of Box"<<" "<<printLength(b)<<endl;
+     return 0;
+}
