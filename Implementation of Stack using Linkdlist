@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+class Node{
+public:
+     int val;
+     Node* next;
+     Node(int val){
+        this->val=val;
+        next=NULL;
+     }
+};
+class Stack{
+    public:
+       Node* head=NULL;
+       int size=0;
+       void push(int num){
+            Node* temp=new Node(num);
+            if(head==NULL){
+                head=temp;
+            }
+            else{
+                temp->next=head;
+                head=temp;
+            }
+            cout<<"Element is inserted"<<" "<<num<<endl;
+            size++;
+       }
+
+       void pop(){
+            if(size==0){
+                 cout<<"Satck is empty"<<endl;
+            }
+            else{
+                 cout<<"Top element of stack is"<<" "<<head->val<<endl;
+                 Node* node=head;
+                 head=head->next;
+                 delete(node);
+                 size--;
+            }
+       }
+
+       void isEmpty(){
+            if(size==0){
+                 cout<<"Stack is empty :)"<<endl;
+            }
+            else{
+                 cout<<"No stack is not empty"<<endl;
+            }
+       }
+};
+int main(){ 
+     Stack s;
+     s.push(6);
+     s.push(7);
+     s.push(8);
+     s.push(9);
+     s.push(0);
+     s.pop();
+     s.pop();
+     s.pop();
+     s.isEmpty();
+     return 0;
+}
