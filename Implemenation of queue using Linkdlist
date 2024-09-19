@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+class Node{
+public:
+     int val;
+     Node* next;
+     Node(int val){
+        this->val=val;
+        next=NULL;
+     }
+};
+class Queue{
+   public:
+        
+        Node* front;
+        Node* rare;
+        int size;
+
+        Queue(){
+           front=NULL;
+           rare=NULL;
+           size=0;
+        }
+        
+
+        void push(int num){
+
+             Node* temp=new Node(num);
+             if(front==NULL){
+                front=temp;
+                rare=temp;
+             }
+             else{
+                rare->next=temp;
+                rare=rare->next;
+             }
+             cout<<"Element is pushed into the queue"<<" "<<front->val<<" "<<rare->val<<endl;
+             size++;
+        }
+
+        void pop(){
+             if(front==NULL){
+                 cout<<"Queue is empty"<<endl;
+             }
+             else{
+                 cout<<"Front value of queue"<<" "<<front->val<<endl;
+                 Node* temp=front;
+                 front=front->next;
+                 temp->next=NULL;
+                 delete(temp);
+                 size--;
+             }
+        }
+
+        void peak(){
+             if(front==NULL){
+                 cout<<"Queue is empty"<<endl;
+             }
+             else{
+                 cout<<"Peak of the queue"<<" "<<front->val<<endl;
+             }
+        }
+
+        void sizeofqueue(){
+             if(front==NULL){
+                 cout<<"Queue size is zero"<<endl;
+             }
+             else{
+                 cout<<"Size of queue is"<<" "<<size<<endl;
+             }
+        }
+};
+int main(){ 
+     
+     Queue q;
+
+     q.sizeofqueue();
+     q.push(12);
+     q.push(2);
+     q.push(6);
+     q.push(9);
+     q.push(7);
+
+     q.peak();
+     q.pop();
+     q.peak();
+     q.pop();
+     q.peak();
+     return 0;
+}
