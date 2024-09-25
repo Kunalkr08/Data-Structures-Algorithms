@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+class Node{
+    public:
+       ll val;
+       Node* next;
+       Node(ll _val){
+           val=_val;
+           next=NULL;
+       }
+};
+
+//function to reverse Linkdlist
+Node* reverseLinklist(Node* head){
+      Node* temp=head;
+      Node* prev=NULL;
+      while(temp!=NULL){
+          Node* node=temp->next;
+          temp->next=prev;
+          prev=temp;
+          temp=node;
+      }
+      return prev;
+}
+
+Node* findmiddle(Node* head){
+      Node* slow=head;
+      Node* fast=head;
+      while(fast->next!=NULL && fast->next->next!=NULL){
+          slow=slow->next;
+          fast=fast->next->next;
+      }
+      return slow;
+}
+int main(){ 
+     ll n;
+     cin>>n;
+     vector<ll>a(n);
+     for(ll i=0; i<n; i++){
+         cin>>a[i];
+     }
+
+     Node* head=new Node(a[0]);
+     Node* temp=head;
+     for(ll i=1; i<n; i++){
+         temp->next=new Node(a[i]);
+         temp=temp->next;
+     }
+     
+     Node* mid=findmiddle(head);
+     Node* newhead=reverseLinklist(mid->next);
+
+     Node* node=head;
+     Node* second=newhead;
+     ll cnt=0;
+     while(second!=NULL){
+         if(node->val!=second->val){
+              cnt++;
+         }
+         node=node->next;
+         second=second->next;
+     }
+   
+     cout<<(cnt==0 ? "YES" : "NO")<<endl;
+     return 0;
+}
