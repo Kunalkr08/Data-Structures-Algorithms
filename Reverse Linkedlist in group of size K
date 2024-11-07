@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+class Node{
+   public:
+      Node* next;
+      ll val;
+      Node(ll val){
+         next=NULL;
+         this->val=val;
+      }
+};
+
+Node* f(Node* head, ll k, ll &c, ll n){
+      if(head==NULL){
+          return NULL;
+      }
+      
+      Node* prev=NULL;
+      Node* nxt=NULL;
+      Node* cur=head;
+      
+      ll cnt=0;
+      while(cur!=NULL && cnt<k){
+         nxt=cur->next;
+         cur->next=prev;
+         prev=cur;
+         cur=nxt;
+         cnt++;
+         c++;
+      }
+
+      if(nxt!=NULL && (n-c)>=k){
+         head->next=f(nxt, k, c, n);
+      }
+      else{
+         head->next=nxt;
+      }
+
+      return prev;
+}
+int main(){
+    ll n,k;
+    cin>>n>>k;
+    vector<ll>a(n);
+    for(ll i=0; i<n; i++){
+        cin>>a[i];
+    }
+    
+    Node* head=new Node(a[0]);
+    Node* temp=head;
+    for(ll i=1; i<n; i++){
+        temp->next=new Node(a[i]);
+        temp=temp->next;
+    }
+    
+    ll c=0;
+    Node* node=f(head,k,c,n);
+
+    while(node!=NULL){
+        cout<<node->val<<" ";
+        node=node->next;
+    }
+    return 0;
+}
