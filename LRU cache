@@ -1,0 +1,98 @@
+#include<bits/stdc++.h>
+using namespace std;
+using ll=long long;
+
+/*
+  Implementation of LRU Cache
+  Feature include in this LRU
+	LRUCache(int capacity) we need to initialize the LRU cache with positive size capacity.
+	int get(int key) returns the value of the key if the key exists, otherwise return -1.
+	Void put(int key,int value), Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache.if the number of keys exceeds the capacity from this operation, evict the least recently used key.
+*/
+
+class LRU{
+    public:
+    	class Node{
+    		public:
+              int key, val;
+              Node* next;
+              Node* prev;
+              Node(int _key, int _val){
+              	  key=_key;
+              	  val=_val;
+              	  next=NULL;
+              	  prev=NULL;
+              }
+    	};
+        Node* head=new Node(-1,-1);
+    	Node* tail=new Node(-1,-1);
+
+    	int cap;
+    	LRU(int _cap){
+            cap=_cap;
+            head->next=tail;
+    	    tail->prev=head;
+    	}
+
+    	map<int,Node*>mp;
+    	int get(int key){
+    		if(mp.find(key)!=mp.end()){
+    			return 1;
+    		}
+    		return -1;
+    	}
+        
+        //Time Complexity is O(1)
+    	void deleteNode(Node* node){
+             Node* temp=node->prev;
+             temp->next=temp->next->next;
+             tail->prev=tail->prev->prev;
+    	}  
+        
+        //Time complexity is O(1)
+    	void addNode(Node* node){
+    		 Node* temp=head->next;
+    		 head->next=node;
+    		 node->next=temp;
+    		 temp->prev=node;
+             node->prev=head;
+    	}
+        
+        // Time complexity is O(log(n)) for each opertaion 
+        // beacuse i used map data stracture
+    	void put(int key, int val){
+    		 if(mp.find(key)!=mp.end()){
+                 Node* node=mp[key];
+                 if(node->val!=val){
+                 	node->val=val;
+                 }
+    		 }
+    		 else{
+    		 	 if(mp.size()==cap){
+    		 	 	 deleteNode(tail->prev);
+    		 	 	 mp.erase(tail->prev->key);
+    		 	 	 addNode(new Node(key, val));
+    		 	 	 mp[key]=head->next;
+    		 	 }
+    		 	 else{
+    		 	 	 addNode(new Node(key, val));
+    		 	 	 mp[key]=head->next;
+    		 	 }
+    		 }
+    	}
+};
+int main(){ 
+     LRU lru(3);
+
+     lru.put(2,3);
+     lru.put(3,9);
+     lru.put(1,16);
+     cout<<lru.get(3)<<endl;
+     lru.put(9,3);
+     lru.put(11,1);
+     cout<<lru.get(11)<<endl;
+     lru.put(11,16);
+     cout<<lru.get(11)<<endl;
+     cout<<lru.get(5)<<endl;
+     return 0;
+}
