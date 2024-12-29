@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+using ll=long long;
+/*
+    Josephus problem
+*/
+
+void solve(int i, vector<int>&a, int k, int &ans){
+     if(a.size()==1){
+        ans=a[0];
+        return;
+     }
+     
+     int index=(i+k-1)%a.size();
+     a.erase(a.begin()+index);
+     solve(index, a, k, ans);
+}
+int main(){ 
+     int n, k;
+     cin>>n>>k;
+     vector<int>a(n);
+     for(int i=0; i<n; i++){
+     	a[i]=i+1;
+     }
+
+     int ans=-1;
+     solve(0, a, k, ans);
+     cout<<ans<<endl;
+     return 0;
+}
